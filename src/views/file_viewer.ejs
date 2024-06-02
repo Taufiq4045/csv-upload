@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title><%= title %></title>
+    <!-- Font Awesome -->
+    <script
+      src="https://kit.fontawesome.com/f383b6eabf.js"
+      crossorigin="anonymous"
+    ></script>
+    <!-- Bootstrap CSS -->
+    <link
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" type="text/css" href="/css/styles.css" />
+  </head>
+  <body>
+    <div class="mt-5 mx-5 my-5">
+      <!-- Header -->
+      <nav class="navbar navbar-light bg-light fixed-top">
+        <a href="/api/csv-upload" class="navbar-brand">
+          <i class="fa-solid fa-circle-arrow-left" style="color: #b8b8b8"></i>
+          <span class="ml-2">CSV Upload</span>
+          <span class="ml-4">Viewer</span>
+          <span class="ml-4"><%= fileName %></span>
+        </a>
+      </nav>
+
+      <!-- Search bar -->
+      <div class="container mt-5 pt-5">
+        <div class="input-group mb-3">
+          <input
+            type="text"
+            id="search-input"
+            class="form-control"
+            placeholder="Search data..."
+          />
+          <div class="input-group-append">
+            <button id="go" class="btn btn-outline-secondary" type="button">
+              Go
+            </button>
+          </div>
+        </div>
+        <p id="total-rows">Total Rows: <%= length %></p>
+      </div>
+
+      <!-- Search results -->
+      <div class="">
+        <table class="table table-bordered mt-3">
+          <thead class="thead-light">
+            <tr>
+              <% head.forEach((h, index) => { %>
+              <th>
+                <%= h %>
+                <button
+                  class="btn btn-link p-0 sort-btn"
+                  data-index="<%= index %>"
+                  data-order="asc"
+                >
+                  <i class="fa fa-sort"></i>
+                </button>
+              </th>
+              <% }) %>
+            </tr>
+          </thead>
+          <tbody id="table-body">
+            <% data.forEach(row => { %>
+            <tr>
+              <% Object.keys(row).forEach(key => { %>
+              <td><%= row[key] %></td>
+              <% }) %>
+            </tr>
+            <% }) %>
+          </tbody>
+        </table>
+
+        <nav>
+          <ul class="pagination justify-content-center">
+            <li class="page-item disabled" id="previous-page">
+              <a class="page-link" href="#" tabindex="-1">Previous</a>
+            </li>
+            <% for (let i = 1; i <= Math.ceil(length / 100); i++) { %>
+            <li class="page-item <%= i === 1 ? 'active' : '' %>">
+              <a class="page-link" href="#" data-page="<%= i %>"><%= i %></a>
+            </li>
+            <% } %>
+            <li class="page-item" id="next-page">
+              <a class="page-link" href="#">Next</a>
+            </li>
+          </ul>
+        </nav>
+      </div>
+    </div>
+
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  </body>
+</html>
